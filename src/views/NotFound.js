@@ -1,5 +1,5 @@
 import React from 'react';
-import Panel from '../patterns/Panel';
+import { Panel } from 'registers-react-library';
 
 /**
  * @const NotFound - This is displayed whenever a user tries to

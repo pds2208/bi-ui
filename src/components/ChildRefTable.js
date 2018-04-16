@@ -1,7 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import ReactTable from 'react-table';
-import Panel from '../patterns/Panel';
+import { Panel } from 'registers-react-library';
 import industryCodeDescription from '../utils/siccode';
 import { formatData } from '../utils/helperMethods';
 
