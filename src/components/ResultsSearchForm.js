@@ -1,6 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import TextInput from '../patterns/TextInput';
+import { TextInput } from 'registers-react-library';
 import TextInputRange from '../patterns/TextInputRange';
 import { Button } from 'registers-react-library';
 import SelectMultipleInput from '../patterns/SelectMultipleInput';
