@@ -2,7 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { withRouter } from 'react-router-dom';
-import LinkButton from '../patterns/LinkButton';
+import { LinkButton } from 'registers-react-library';
 import { logout } from '../actions/LoginActions';
 import ONSLogo from '../resources/img/logo.svg';
 

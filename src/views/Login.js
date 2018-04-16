@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { login, resetLoginErrorMsg } from '../actions/LoginActions';
 import Button from '../patterns/Button';
-import LinkButton from '../patterns/LinkButton';
+import { LinkButton } from 'registers-react-library';
 import TextInput from '../patterns/TextInput';
 import Panel from '../patterns/Panel';
 
