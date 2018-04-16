@@ -5,7 +5,7 @@ import { connect } from 'react-redux';
 import history from '../history';
 import { checkAuth } from '../actions/LoginActions';
 import Header from './Header';
-import Footer from './Footer';
+import { Footer } from 'registers-react-library';
 import ShowConfetti from '../components/Confetti';
 import config from '../config/constants';
 
