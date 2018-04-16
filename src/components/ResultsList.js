@@ -1,7 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import Business from './Business';
-import Pagination from '../patterns/Pagination';
+import { Pagination } from 'registers-react-library';
 
 /**
  * @class ResultsList - This component shows the search results as a list, which
