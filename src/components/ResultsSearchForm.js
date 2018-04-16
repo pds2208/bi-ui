@@ -2,7 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import TextInput from '../patterns/TextInput';
 import TextInputRange from '../patterns/TextInputRange';
-import Button from '../patterns/Button';
+import { Button } from 'registers-react-library';
 import SelectMultipleInput from '../patterns/SelectMultipleInput';
 import { employmentBands, legalStatusBands, turnoverBands, tradingStatusBands } from '../utils/convertBands';
 
