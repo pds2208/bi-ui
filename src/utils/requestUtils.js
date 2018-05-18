@@ -53,8 +53,26 @@ const returnBusiness = () => ({
   EmploymentBands: ['A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J', 'K', 'L', 'M', 'N', 'O'][Math.floor(Math.random() * 9) + 0],
   PostCode: `${makeId(4).toUpperCase()} ${makeId(3).toUpperCase()}`,
   CompanyNo: makeId(8).toUpperCase(),
-  VatRefs: randomArr({ length: Math.floor(Math.random() * 6) + 0 }),
-  PayeRefs: randomArr({ length: Math.floor(Math.random() * 6) + 0 }),
+  vatRefs: randomArr({ length: Math.floor(Math.random() * 6) + 0 }),
+  payeRefs: randomArr({ length: Math.floor(Math.random() * 6) + 0 }),
+});
+
+
+/**
+ * @const returnBusiness - Return a single business with random attributes
+ *
+ * @return {Object} Returns a single object
+ */
+const returnBusinessSecured = () => ({
+  id: Math.floor(Math.random() * 900000000000) + 100000000000,
+  BusinessName: makeId(10),
+  IndustryCode: Math.floor(Math.random() * 90000) + 10000,
+  LegalStatus: Math.floor(Math.random() * 8) + 1,
+  TradingStatus: ['A', 'C', 'D', 'I'][Math.floor(Math.random() * 4) + 0],
+  Turnover: ['A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I'][Math.floor(Math.random() * 9) + 0],
+  EmploymentBands: ['A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J', 'K', 'L', 'M', 'N', 'O'][Math.floor(Math.random() * 9) + 0],
+  PostCode: `${makeId(4).toUpperCase()} ${makeId(3).toUpperCase()}`,
+  CompanyNo: makeId(8).toUpperCase(),
 });
 
 
@@ -79,7 +97,7 @@ const returnAuthJson = () => ({
  *
  */
 const returnSearch = () => {
-  return Array.from({ length: Math.floor(Math.random() * 10000) + 5 }, () => returnBusiness());
+  return Array.from({ length: Math.floor(Math.random() * 10000) + 5 }, () => returnBusinessSecured());
 };
 
 export { formPromise, returnSearch, returnAuthJson, returnBusiness };
