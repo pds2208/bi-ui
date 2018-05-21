@@ -34,7 +34,7 @@ class Template extends React.Component {
     return (
       <section>
         {confetti}
-        <Header location={location} />
+        <Header location={this.props.location} />
         {this.props.children}
         <Footer />
       </section>

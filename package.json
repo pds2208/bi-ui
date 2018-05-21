@@ -29,7 +29,7 @@
     "istanbul": "^0.4.5",
     "morgan": "^1.7.0",
     "mz": "^2.4.0",
-    "react-scripts": "0.5.1",
+    "react-scripts": "1.1.4",
     "react-test-renderer": "^15.6.1",
     "selenium-webdriver": "^3.3.0",
     "loadtest": "^2.3.0",
