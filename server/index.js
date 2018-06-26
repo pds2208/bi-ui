@@ -13,6 +13,20 @@ const JsonSession = require('./sessions/JsonSession');
 const RedisSession = require('./sessions/RedisSession');
 const PsqlSession = require('./sessions/PsqlSession');
 
+// Zipkin
+
+const CLSContext = require('zipkin-context-cls');
+const { Tracer } = require('zipkin');
+const { recorder } = require('./utilities/recorder');
+
+const ctxImpl = new CLSContext('zipkin');
+const localServiceName = 'bi-ui-node-server';
+const tracer = new Tracer({ ctxImpl, recorder, localServiceName });
+
+const zipkinMiddleware = require('zipkin-instrumentation-express').expressMiddleware;
+
+// End Zipkin
+
 // Environment Variables
 const SERVE_HTML = (process.env.SERVE_HTML === 'true'); // To server the React /build
 const PORT = process.env.PORT || 3001;
@@ -49,6 +63,9 @@ logger.info(`Using session type: ${session.name}`);
 
 // https://stackoverflow.com/questions/10090414/express-how-to-pass-app-instance-to-routes-from-a-different-file
 const app = module.exports = express();
+
+// Zipkin
+app.use(zipkinMiddleware({ tracer }));
 
 // Attach the cache function to the app
 app.cache = require('./utilities/cache');

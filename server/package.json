@@ -21,7 +21,11 @@
     "request-promise": "^4.2.2",
     "winston": "^2.4.0",
     "pg": "^6.4.2",
-    "dotenv": "^4.0.0"
+    "dotenv": "^4.0.0",
+    "zipkin": "^0.11.1",
+    "zipkin-context-cls": "^0.11.0",
+    "zipkin-transport-http": "^0.11.1",
+    "zipkin-instrumentation-express": "^0.11.1"
   },
   "engines": {
     "node": "6.11.5",
