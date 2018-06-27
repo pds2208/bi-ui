@@ -19,6 +19,8 @@ const accessAPI = (url, method, auth, body, requestType) => {
       method,
       headers: {
         'Content-Type': 'application/json',
+        // 'X-B3-TraceId': '48485a3953bb6124',
+        // 'X-B3-SpanId': '48485a3953bb6124',
         Authorization: auth,
       },
       body,

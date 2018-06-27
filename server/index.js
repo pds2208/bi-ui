@@ -14,18 +14,9 @@ const RedisSession = require('./sessions/RedisSession');
 const PsqlSession = require('./sessions/PsqlSession');
 
 // Zipkin
-
-const CLSContext = require('zipkin-context-cls');
-const { Tracer } = require('zipkin');
-const { recorder } = require('./utilities/recorder');
-
-const ctxImpl = new CLSContext('zipkin');
-const localServiceName = 'bi-ui-node-server';
-const tracer = new Tracer({ ctxImpl, recorder, localServiceName });
-
+// const { recorder } = require('./utilities/recorder');
+const { tracer } = require('./utilities/tracer');
 const zipkinMiddleware = require('zipkin-instrumentation-express').expressMiddleware;
-
-// End Zipkin
 
 // Environment Variables
 const SERVE_HTML = (process.env.SERVE_HTML === 'true'); // To server the React /build
@@ -92,7 +83,7 @@ if (ENV === 'development') {
   logger.info('Using Access-Control-Allow-Origin CORS headers');
   app.use((req, res, next) => {
     res.header('Access-Control-Allow-Origin', '*');
-    res.header('Access-Control-Allow-Headers', 'Origin, X-Requested-With, Content-Type, Accept, Authorization');
+    res.header('Access-Control-Allow-Headers', 'Origin, X-Requested-With, Content-Type, Accept, Authorization, X-B3-TraceId, X-B3-ParentSpanId, X-B3-SpanId, X-B3-Sampled');
     res.header('Access-Control-Allow-Methods', 'POST, PUT, GET, OPTIONS');
     res.header('Access-Control-Expose-Headers', 'X-Total-Count');
     next();

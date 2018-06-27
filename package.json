@@ -45,6 +45,7 @@
     "halogenium": "^2.2.3",
     "history": "^4.7.2",
     "memory-cache": "^0.2.0",
+    "node-fetch": "^2.1.2",
     "pg": "^6.4.2",
     "prop-types": "^15.5.10",
     "react": "^16.2.0",
@@ -63,10 +64,11 @@
     "request-promise": "^4.2.2",
     "uuid": "^3.1.0",
     "winston": "^2.4.0",
-    "zipkin": "^0.11.1",
+    "zipkin": "^0.11.2",
     "zipkin-context-cls": "^0.11.0",
-    "zipkin-transport-http": "^0.11.1",
-    "zipkin-instrumentation-express": "^0.11.1"
+    "zipkin-instrumentation-express": "^0.11.1",
+    "zipkin-instrumentation-fetch": "^0.11.1",
+    "zipkin-transport-http": "^0.11.1"
   },
   "engines": {
     "node": "6.11.5",

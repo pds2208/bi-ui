@@ -11,13 +11,32 @@ const morgan = require('morgan');
 const myParser = require('body-parser');
 const base64 = require('base-64');
 const compression = require('compression');
-const rp = require('request-promise');
+// const rp = require('request-promise');
+const fetch = require('node-fetch');
 const timeouts = require('./config/timeouts');
 const urls = require('./config/urls');
 const uuidv4 = require('uuid/v4');
 const logger = require('./utilities/logger')(module);
 
+// Zipkin
+
+const CLSContext = require('zipkin-context-cls');
+const { Tracer } = require('zipkin');
+const { recorder } = require('./utilities/recorder');
+
+const ctxImpl = new CLSContext('zipkin');
+const localServiceName = 'bi-ui-mock-api-gateway';
+const tracer = new Tracer({ ctxImpl, recorder, localServiceName });
+const zipkinMiddleware = require('zipkin-instrumentation-express').expressMiddleware;
+
 const PORT = process.env.PORT || 3002;
+
+const wrapFetch = require('zipkin-instrumentation-fetch');
+
+const zipkinFetch = wrapFetch(fetch, {
+  tracer,
+  serviceName: localServiceName
+});
 
 // Get the admin/user credentials from environment variables
 const ADMIN_USERNAME = process.env.BI_UI_TEST_ADMIN_USERNAME;
@@ -34,6 +53,7 @@ users[USER_USERNAME] = `Basic ${base64.encode(`${USER_USERNAME}:${USER_PASSWORD}
 const validApiKeys = {};
 
 const app = express();
+app.use(zipkinMiddleware({ tracer }));
 app.use(compression()); // gzip all responses
 app.use(morgan(':remote-addr - :remote-user [:date[clf]] ":method :url HTTP/:http-version" :status :res[content-length] :response-time ms'));
 app.use(myParser.json()); // For parsing body of POSTs
@@ -66,13 +86,14 @@ app.get('/bi/*', (req, res) => {
   const apiKey = req.get('Authorization');
   if (validApiKey(apiKey)) {
     getApiEndpoint(`${urls.API_URL}${url}`)
-    .then((response) => {
+    .then(resp => {
       logger.info('Returning re-routed GET API request');
-      if ('x-total-count' in response.headers) {
-        res.setHeader('x-total-count', response.headers['x-total-count']);
+      if ('x-total-count' in resp.headers) {
+        res.setHeader('X-Total-Count', resp.headers['x-total-count']);
       }
-      return res.send(response.body);
+      return resp.json();
     })
+    .then(json => res.send(json))
     .catch((error) => {
       logger.error('Error rerouting GET request');
       return res.status(error.statusCode).send(error);
@@ -121,7 +142,7 @@ function getApiEndpoint(url) {
     resolveWithFullResponse: true
   };
 
-  return rp(options);
+  return zipkinFetch(url, options);
 }
 
 function postApiEndpoint(url, postBody) {
@@ -136,7 +157,7 @@ function postApiEndpoint(url, postBody) {
     json: false
   };
 
-  return rp(options);
+  return zipkinFetch(url, options);
 }
 
 app.listen(PORT, () => {
