@@ -12,11 +12,15 @@ const path = require('path');
 const JsonSession = require('./sessions/JsonSession');
 const RedisSession = require('./sessions/RedisSession');
 const PsqlSession = require('./sessions/PsqlSession');
-
-// Zipkin
-// const { recorder } = require('./utilities/recorder');
-const { tracer } = require('./utilities/tracer');
+const CLSContext = require('zipkin-context-cls');
+const { Tracer } = require('zipkin');
+const { recorder } = require('./utilities/recorder');
 const zipkinMiddleware = require('zipkin-instrumentation-express').expressMiddleware;
+
+// Zipkin Setup
+const ctxImpl = new CLSContext('zipkin');
+const localServiceName = 'bi-ui-node-server';
+const tracer = new Tracer({ ctxImpl, recorder, localServiceName });
 
 // Environment Variables
 const SERVE_HTML = (process.env.SERVE_HTML === 'true'); // To server the React /build

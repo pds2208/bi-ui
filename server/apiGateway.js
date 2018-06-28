@@ -11,32 +11,24 @@ const morgan = require('morgan');
 const myParser = require('body-parser');
 const base64 = require('base-64');
 const compression = require('compression');
-// const rp = require('request-promise');
 const fetch = require('node-fetch');
 const timeouts = require('./config/timeouts');
 const urls = require('./config/urls');
 const uuidv4 = require('uuid/v4');
 const logger = require('./utilities/logger')(module);
-
-// Zipkin
-
 const CLSContext = require('zipkin-context-cls');
 const { Tracer } = require('zipkin');
 const { recorder } = require('./utilities/recorder');
+const zipkinMiddleware = require('zipkin-instrumentation-express').expressMiddleware;
+const wrapFetch = require('zipkin-instrumentation-fetch');
 
+// Zipkin Setup
 const ctxImpl = new CLSContext('zipkin');
 const localServiceName = 'bi-ui-mock-api-gateway';
 const tracer = new Tracer({ ctxImpl, recorder, localServiceName });
-const zipkinMiddleware = require('zipkin-instrumentation-express').expressMiddleware;
+const zipkinFetch = wrapFetch(fetch, { tracer });
 
 const PORT = process.env.PORT || 3002;
-
-const wrapFetch = require('zipkin-instrumentation-fetch');
-
-const zipkinFetch = wrapFetch(fetch, {
-  tracer,
-  serviceName: localServiceName
-});
 
 // Get the admin/user credentials from environment variables
 const ADMIN_USERNAME = process.env.BI_UI_TEST_ADMIN_USERNAME;
