@@ -80,8 +80,9 @@ app.get('/bi/*', (req, res) => {
     getApiEndpoint(`${urls.API_URL}${url}`)
     .then(resp => {
       logger.info('Returning re-routed GET API request');
-      if ('x-total-count' in resp.headers) {
-        res.setHeader('X-Total-Count', resp.headers['x-total-count']);
+      const xTotalCount = resp.headers.get('x-total-count');
+      if (xTotalCount !== '') {
+        res.setHeader('X-Total-Count', xTotalCount);
       }
       return resp.json();
     })

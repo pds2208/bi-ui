@@ -69,8 +69,9 @@ router.post('/api', authMiddleware, (req, res) => {
       getApiEndpoint(`${urls.API_GW}/bi/${endpoint}`, key)
         .then(resp => {
           logger.info('Returning GET response from API Gateway');
-          if ('x-total-count' in resp.headers) {
-            res.setHeader('X-Total-Count', resp.headers['x-total-count']);
+          const xTotalCount = resp.headers.get('x-total-count');
+          if (xTotalCount !== '') {
+            res.setHeader('X-Total-Count', xTotalCount);
           }
           return resp.json();
         })
